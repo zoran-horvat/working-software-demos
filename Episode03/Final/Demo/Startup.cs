@@ -1,5 +1,4 @@
 using Demo.Infrastructure;
-using Demo.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -37,10 +36,16 @@ namespace Demo
             
             services.AddDbContext<EntireContext>(options => options.UseSqlServer(this.ConnectionString));
             services.AddDbContext<AuthenticationContext>(options => options.UseSqlServer(this.ConnectionString));
-            //services.AddDbContext<ContentContext>(options => options.UseSqlServer(this.ConnectionString));
+            //services.AddDbContext<SecureContentContext>(options => options.UseSqlServer(this.ConnectionString));
+
+            services.AddScoped<IContentGatewayFactory, SecureContentContextFactory>(svc =>
+                new SecureContentContextFactory(
+                    new DbContextOptionsBuilder<SecureContentContext>()
+                        .UseSqlServer(this.ConnectionString)
+                        .UseLoggerFactory(svc.GetService<ILoggerFactory>())
+                        .Options));
 
             services.AddLogging(builder => builder.AddFilter(DbLoggerCategory.Name, LogLevel.Debug).AddConsole());
-            services.AddSingleton<IContentGatewayFactory, ContentContextFactory>(svc => new ContentContextFactory(this.ConnectionString, svc.GetService<ILoggerFactory>()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -5,9 +5,9 @@ namespace Demo.Infrastructure
 {
     public interface IContentGateway
     {
-        public IQueryable<Product> Products { get; }
-        public void Add(Product product);
-        public void Remove(int productId);
-        public int SaveChanges();
+        IQueryable<Product> Products { get; }
+        void Add(Product obj);
+        void RemoveProduct(int productId);
+        int SaveChanges();
     }
 }

@@ -10,20 +10,19 @@ namespace Demo.Pages.Products
 {
     public class DetailsModel : PageModel
     {
-        private Lazy<IContentGateway> DbContext { get; }
+        private Lazy<IContentGateway> LazyDbContext { get; }
+        private IContentGateway DbContext => this.LazyDbContext.Value;
 
-        [BindProperty]
-        public int ProductId { get; set; }
         public Product Product { get; private set; }
 
         public DetailsModel(IContentGatewayFactory dbContextFactory)
         {
-            this.DbContext = dbContextFactory.ToLazyContext(this);
+            this.LazyDbContext = dbContextFactory.ToLazyContentGateway(this);
         }
 
         public void OnGet(int productId)
         {
-            this.Product = this.DbContext.Value.Products.First(product => product.Id == productId);
+            this.Product = this.DbContext.Products.First(product => product.Id == productId);
         }
     }
 }

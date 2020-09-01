@@ -5,13 +5,13 @@
         public int Id { get; private set; }
         public string Name { get; private set; }
         public string OwnerKey { get; private set; }
-        public UserRef OwnerRef => this.OwnerKey;
+        public UserRef OwnerRef => new UserRef(this.OwnerKey);
 
         public Product(int id, string name, UserRef owner)
         {
             this.Id = id;
             this.Name = name;
-            this.OwnerKey = owner;
+            this.OwnerKey = owner.Value;
         }
 
         private Product() : this(0, string.Empty, UserRef.Empty) { }

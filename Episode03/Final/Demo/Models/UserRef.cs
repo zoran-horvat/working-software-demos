@@ -1,19 +1,14 @@
-﻿using System;
-
-namespace Demo.Models
+﻿namespace Demo.Models
 {
     public class UserRef
     {
-        public string Key { get; }
-
-        public UserRef(string key)
+        public string Value { get; }
+     
+        public UserRef(string value)
         {
-            this.Key = key ?? throw new ArgumentNullException(nameof(key));
+            this.Value = value;
         }
 
         public static UserRef Empty => new UserRef(string.Empty);
-
-        public static implicit operator UserRef(string key) => new UserRef(key);
-        public static implicit operator string(UserRef reference) => reference.Key;
     }
 }

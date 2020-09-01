@@ -11,29 +11,30 @@ namespace Demo.Pages.Products
 {
     public class IndexModel : PageModel
     {
-        private Lazy<IContentGateway> DbContext { get; }
+        private Lazy<IContentGateway> LazyDbContext { get; }
+        private IContentGateway DbContext => this.LazyDbContext.Value;
 
         [BindProperty] public string NewProductName { get; set; } = string.Empty;
         public IEnumerable<Product> AllProducts { get; private set; } = Enumerable.Empty<Product>();
 
         public IndexModel(IContentGatewayFactory dbContextFactory)
         {
-            this.DbContext = dbContextFactory.ToLazyContext(this);
+            this.LazyDbContext = dbContextFactory.ToLazyContentGateway(this);
         }
 
         public void OnGet()
         {
-            this.AllProducts = this.DbContext.Value.Products.ToList();
+            this.AllProducts = this.DbContext.Products.ToList();
         }
 
         public IActionResult OnPost()
         {
             if (!string.IsNullOrWhiteSpace(this.NewProductName))
             {
-                UserRef owner = this.User.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value;
-                Product newProduct = new Product(0, this.NewProductName, owner);
-                this.DbContext.Value.Add(newProduct);
-                this.DbContext.Value.SaveChanges();
+                string ownerKey = base.User.Claims.First(claim => claim.Type == ClaimTypes.NameIdentifier).Value;
+                Product newProduct = new Product(0, this.NewProductName, new UserRef(ownerKey));
+                this.DbContext.Add(newProduct);
+                this.DbContext.SaveChanges();
             }
             return RedirectToPage("/Products/Index");
         }

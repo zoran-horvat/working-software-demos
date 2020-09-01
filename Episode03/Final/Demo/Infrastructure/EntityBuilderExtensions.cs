@@ -23,6 +23,10 @@ namespace Demo.Infrastructure
             modelBuilder.Entity<User>()
                 .HasIndex(obj => obj.UserName)
                 .IsUnique(true);
+
+            modelBuilder.Entity<User>()
+                .HasIndex(obj => obj.Key)
+                .IsUnique(true);
         }
 
         internal static void ForProduct(this ModelBuilder modelBuilder)
