@@ -1,0 +1,25 @@
+﻿lexemes:
+ignore @'[ \t]+';
+comment matches @'#.*';
+fileName matches @'(?<=edit +).+';
+content matches @'(?<=: ).+';
+
+start: Script;
+
+rules:
+Script -> Line;
+Script -> Script Line;
+
+Line -> '\n';
+Line -> comment '\n';
+Line -> Statement '\n';
+
+Statement -> Edit;
+Statement -> LineContaining;
+Statement -> Select;
+Statement -> Delete;
+
+Edit -> 'edit' fileName;
+LineContaining -> 'line' 'containing' ':' content;
+Select -> 'select' ':' content;
+Delete -> 'delete';

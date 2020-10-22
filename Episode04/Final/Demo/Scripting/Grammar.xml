@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ParserDefinition>
+  <LexicalRules>
+    <Ignore Pattern="[ \t]+" />
+    <Constant Value="&#xA;" />
+    <Constant Value="edit" />
+    <Constant Value="line" />
+    <Constant Value="containing" />
+    <Constant Value=":" />
+    <Constant Value="select" />
+    <Constant Value="delete" />
+    <Lexeme Pattern="#.*" Name="comment" />
+    <Lexeme Pattern="(?&lt;=edit +).+" Name="fileName" />
+    <Lexeme Pattern="(?&lt;=: ).+" Name="content" />
+  </LexicalRules>
+  <Grammar>
+    <Rule Ordinal="0">
+      <Head>
+        <NonTerminal Name="S'" />
+      </Head>
+      <Body>
+        <NonTerminal Name="Script" />
+      </Body>
+    </Rule>
+    <Rule Ordinal="1">
+      <Head>
+        <NonTerminal Name="Script" />
+      </Head>
+      <Body>
+        <NonTerminal Name="Line" />
+      </Body>
+    </Rule>
+    <Rule Ordinal="2">
+      <Head>
+        <NonTerminal Name="Script" />
+      </Head>
+      <Body>
+        <NonTerminal Name="Script" />
+        <NonTerminal Name="Line" />
+      </Body>
+    </Rule>
+    <Rule Ordinal="3">
+      <Head>
+        <NonTerminal Name="Line" />
+      </Head>
+      <Body>
+        <Constant Value="&#xA;" />
+      </Body>
+    </Rule>
+    <Rule Ordinal="4">
+      <Head>
+        <NonTerminal Name="Line" />
+      </Head>
+      <Body>
+        <Terminal Name="comment" />
+        <Constant Value="&#xA;" />
+      </Body>
+    </Rule>
+    <Rule Ordinal="5">
+      <Head>
+        <NonTerminal Name="Line" />
+      </Head>
+      <Body>
+        <NonTerminal Name="Statement" />
+        <Constant Value="&#xA;" />
+      </Body>
+    </Rule>
+    <Rule Ordinal="6">
+      <Head>
+        <NonTerminal Name="Statement" />
+      </Head>
+      <Body>
+        <NonTerminal Name="Edit" />
+      </Body>
+    </Rule>
+    <Rule Ordinal="7">
+      <Head>
+        <NonTerminal Name="Statement" />
+      </Head>
+      <Body>
+        <NonTerminal Name="LineContaining" />
+      </Body>
+    </Rule>
+    <Rule Ordinal="8">
+      <Head>
+        <NonTerminal Name="Statement" />
+      </Head>
+      <Body>
+        <NonTerminal Name="Select" />
+      </Body>
+    </Rule>
+    <Rule Ordinal="9">
+      <Head>
+        <NonTerminal Name="Statement" />
+      </Head>
+      <Body>
+        <NonTerminal Name="Delete" />
+      </Body>
+    </Rule>
+    <Rule Ordinal="10">
+      <Head>
+        <NonTerminal Name="Edit" />
+      </Head>
+      <Body>
+        <Constant Value="edit" />
+        <Terminal Name="fileName" />
+      </Body>
+    </Rule>
+    <Rule Ordinal="11">
+      <Head>
+        <NonTerminal Name="LineContaining" />
+      </Head>
+      <Body>
+        <Constant Value="line" />
+        <Constant Value="containing" />
+        <Constant Value=":" />
+        <Terminal Name="content" />
+      </Body>
+    </Rule>
+    <Rule Ordinal="12">
+      <Head>
+        <NonTerminal Name="Select" />
+      </Head>
+      <Body>
+        <Constant Value="select" />
+        <Constant Value=":" />
+        <Terminal Name="content" />
+      </Body>
+    </Rule>
+    <Rule Ordinal="13">
+      <Head>
+        <NonTerminal Name="Delete" />
+      </Head>
+      <Body>
+        <Constant Value="delete" />
+      </Body>
+    </Rule>
+  </Grammar>
+  <ParsingTable>
+    <Shift State="0" Terminal="&#xA;" TransitionTo="10" />
+    <Shift State="0" Terminal="comment" TransitionTo="3" />
+    <Shift State="0" Terminal="delete" TransitionTo="13" />
+    <Shift State="0" Terminal="edit" TransitionTo="2" />
+    <Shift State="0" Terminal="line" TransitionTo="11" />
+    <Shift State="0" Terminal="select" TransitionTo="8" />
+    <Shift State="1" Terminal="&#xA;" TransitionTo="14" />
+    <Shift State="2" Terminal="fileName" TransitionTo="15" />
+    <Shift State="3" Terminal="&#xA;" TransitionTo="16" />
+    <Shift State="8" Terminal=":" TransitionTo="17" />
+    <Shift State="9" Terminal="&#xA;" TransitionTo="10" />
+    <Shift State="9" Terminal="comment" TransitionTo="3" />
+    <Shift State="9" Terminal="delete" TransitionTo="13" />
+    <Shift State="9" Terminal="edit" TransitionTo="2" />
+    <Shift State="9" Terminal="line" TransitionTo="11" />
+    <Shift State="9" Terminal="select" TransitionTo="8" />
+    <Shift State="11" Terminal="containing" TransitionTo="19" />
+    <Shift State="17" Terminal="content" TransitionTo="20" />
+    <Shift State="19" Terminal=":" TransitionTo="21" />
+    <Shift State="21" Terminal="content" TransitionTo="22" />
+    <Reduce State="4" Terminal="&#xA;" RuleOrdinal="8" />
+    <Reduce State="5" Terminal="&#xA;" RuleOrdinal="6" />
+    <Reduce State="6" Terminal="&#xA;" RuleOrdinal="9" />
+    <Reduce State="7" Terminal="&#xA;" RuleOrdinal="7" />
+    <Reduce State="9" EndOfInput="$" RuleOrdinal="0" />
+    <Reduce State="10" Terminal="&#xA;" RuleOrdinal="3" />
+    <Reduce State="10" EndOfInput="$" RuleOrdinal="3" />
+    <Reduce State="10" Terminal="comment" RuleOrdinal="3" />
+    <Reduce State="10" Terminal="delete" RuleOrdinal="3" />
+    <Reduce State="10" Terminal="edit" RuleOrdinal="3" />
+    <Reduce State="10" Terminal="line" RuleOrdinal="3" />
+    <Reduce State="10" Terminal="select" RuleOrdinal="3" />
+    <Reduce State="12" Terminal="&#xA;" RuleOrdinal="1" />
+    <Reduce State="12" EndOfInput="$" RuleOrdinal="1" />
+    <Reduce State="12" Terminal="comment" RuleOrdinal="1" />
+    <Reduce State="12" Terminal="delete" RuleOrdinal="1" />
+    <Reduce State="12" Terminal="edit" RuleOrdinal="1" />
+    <Reduce State="12" Terminal="line" RuleOrdinal="1" />
+    <Reduce State="12" Terminal="select" RuleOrdinal="1" />
+    <Reduce State="13" Terminal="&#xA;" RuleOrdinal="13" />
+    <Reduce State="14" Terminal="&#xA;" RuleOrdinal="5" />
+    <Reduce State="14" EndOfInput="$" RuleOrdinal="5" />
+    <Reduce State="14" Terminal="comment" RuleOrdinal="5" />
+    <Reduce State="14" Terminal="delete" RuleOrdinal="5" />
+    <Reduce State="14" Terminal="edit" RuleOrdinal="5" />
+    <Reduce State="14" Terminal="line" RuleOrdinal="5" />
+    <Reduce State="14" Terminal="select" RuleOrdinal="5" />
+    <Reduce State="15" Terminal="&#xA;" RuleOrdinal="10" />
+    <Reduce State="16" Terminal="&#xA;" RuleOrdinal="4" />
+    <Reduce State="16" EndOfInput="$" RuleOrdinal="4" />
+    <Reduce State="16" Terminal="comment" RuleOrdinal="4" />
+    <Reduce State="16" Terminal="delete" RuleOrdinal="4" />
+    <Reduce State="16" Terminal="edit" RuleOrdinal="4" />
+    <Reduce State="16" Terminal="line" RuleOrdinal="4" />
+    <Reduce State="16" Terminal="select" RuleOrdinal="4" />
+    <Reduce State="18" Terminal="&#xA;" RuleOrdinal="2" />
+    <Reduce State="18" EndOfInput="$" RuleOrdinal="2" />
+    <Reduce State="18" Terminal="comment" RuleOrdinal="2" />
+    <Reduce State="18" Terminal="delete" RuleOrdinal="2" />
+    <Reduce State="18" Terminal="edit" RuleOrdinal="2" />
+    <Reduce State="18" Terminal="line" RuleOrdinal="2" />
+    <Reduce State="18" Terminal="select" RuleOrdinal="2" />
+    <Reduce State="20" Terminal="&#xA;" RuleOrdinal="12" />
+    <Reduce State="22" Terminal="&#xA;" RuleOrdinal="11" />
+    <Goto State="0" NonTerminal="Delete" TransitionTo="6" />
+    <Goto State="0" NonTerminal="Edit" TransitionTo="5" />
+    <Goto State="0" NonTerminal="Line" TransitionTo="12" />
+    <Goto State="0" NonTerminal="LineContaining" TransitionTo="7" />
+    <Goto State="0" NonTerminal="Script" TransitionTo="9" />
+    <Goto State="0" NonTerminal="Select" TransitionTo="4" />
+    <Goto State="0" NonTerminal="Statement" TransitionTo="1" />
+    <Goto State="9" NonTerminal="Delete" TransitionTo="6" />
+    <Goto State="9" NonTerminal="Edit" TransitionTo="5" />
+    <Goto State="9" NonTerminal="Line" TransitionTo="18" />
+    <Goto State="9" NonTerminal="LineContaining" TransitionTo="7" />
+    <Goto State="9" NonTerminal="Select" TransitionTo="4" />
+    <Goto State="9" NonTerminal="Statement" TransitionTo="1" />
+  </ParsingTable>
+</ParserDefinition>

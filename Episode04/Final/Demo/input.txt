@@ -1,0 +1,4 @@
+﻿edit      program
+line containing: static void Main
+select: string[] args
+delete
