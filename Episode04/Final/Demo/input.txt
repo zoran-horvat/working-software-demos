@@ -1,4 +1,5 @@
 ﻿edit      program
 line containing: static void Main
+line containing:     four heading spaces
 select: string[] args
 delete

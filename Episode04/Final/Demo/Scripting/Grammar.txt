@@ -20,6 +20,6 @@ Statement -> Select;
 Statement -> Delete;
 
 Edit -> 'edit' fileName;
-LineContaining -> 'line' 'containing' ':' content;
-Select -> 'select' ':' content;
+LineContaining -> 'line' 'containing' ': ' content;
+Select -> 'select' ': ' content;
 Delete -> 'delete';
